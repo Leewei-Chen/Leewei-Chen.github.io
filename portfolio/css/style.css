@@ -71,7 +71,7 @@ body {
 .filters a:hover, 
 .filters a.active {
     color: #000;
-    padding-left: 8px;
+    /* padding-left: 8px; */
 }
 
 /* --- The Hover Reveal Logic --- */
@@ -415,6 +415,12 @@ body {
         flex-direction: column; 
     }
     
+    /* 1. Ensure the main content doesn't push down too far on the index page */
+    .main-content {
+        margin-top: 60px !important; /* Reduces the gap under the header */
+        padding: 0 !important;
+    }
+
     .sidebar { 
         position: fixed; /* Keep it at the top while scrolling */
         width: 100%; 
@@ -452,10 +458,41 @@ body {
     .nav-links {
         display: flex;
         flex-direction: row;
-        gap: 15px;
+        gap: 10px;
         margin-top: 0 !important;
+        width: auto !important; /* Forces the container to shrink to the text size */
         margin-left: auto; /* This is the key to pushing them to the far right */
+        justify-content: flex-end !important; /* Pulls the whole group to the right edge */
         padding-top: 5px; /* Adjust this to vertically center links with the name */
+    }
+
+    .nav-group {
+        position: relative; 
+    }
+
+    .filters {
+        position: absolute; /* Takes the sub-menu out of the normal layout flow */
+        top: 100%;          /* Positions it directly under "WORKS" */
+        left: 0;            /* Aligns the left edge of the menu with "WORKS" */
+        width: max-content; /* Allows the menu to be as wide as "COMPUTATIONAL" without affecting the top row */
+        background: white;  /* Ensures it covers content behind it when open */
+        padding: 10px;
+        z-index: 1001;
+        /* opacity takes 0.3s to fade, but waits 0.4s (the delay) BEFORE starting the fade */
+        transition: max-height 0.4ms ease, opacity 0.3s ease 0.4s, margin-top 2s ease;
+    
+        pointer-events: none;
+    }
+
+    /* --- Ensure the delay is REMOVED when you hover back on --- */
+    .nav-group:hover .filters {
+        max-height: 300px;
+        opacity: 1;
+        margin-top: 15px;
+        pointer-events: auto;
+        
+        /* Reset the delay to 0s so it appears instantly when you want it */
+        transition-delay: 0s;
     }
 
     /* 4. Reduce Project Description and Caption Size */
@@ -485,8 +522,16 @@ body {
         grid-template-columns: 1fr; 
         padding: 60px 25px; 
         row-gap: 60px; 
+        width: 100% !important;
+        box-sizing: border-box;
     }
-    .project-item { grid-column: auto !important; margin-top: 0 !important; }
+    .project-item { 
+        grid-column: auto !important; 
+        margin-top: 0 !important; 
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
     .project-meta { opacity: 1; transform: none; }
 
     /* --- Project Detail Mobile Fixes --- */
